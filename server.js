@@ -1,29 +1,18 @@
 const express = require('express');
-const port = process.env.PORT || 5000;
-const connectDB = require('./config/db');
-const { ApolloServer, gql } = require('apollo-server-express');
+const port = process.env.PORT || 4000;
+const dotenv = require('dotenv');
+dotenv.config();
+const { ApolloServer } = require('apollo-server');
+const typeDefs = require('./schema/schema');
+const resolvers = require('./resolvers/resolvers');
+const models = require('./models');
 
-//Connect to DB
-connectDB();
-//Init Middleware
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: { models },
+});
 
-// Construct a schema, using GraphQL schema language
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
-// Provide resolver functions for your schema fields
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-};
-const server = new ApolloServer({ typeDefs, resolvers });
-const app = express();
-server.applyMiddleware({ app });
-app.listen({ port }, () =>
-  console.log(
-    `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
-  )
-);
+server
+  .listen()
+  .then(({ url }) => console.log('Server is running on localhost:4000'));
