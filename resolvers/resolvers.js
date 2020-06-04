@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs');
+const jsonwebtoken = require('jsonwebtoken');
+require('dotenv').config();
 
 const resolvers = {
   Query: {
@@ -68,25 +70,31 @@ const resolvers = {
 
       return updatedUser;
     },
-    // async createRecipe(
-    //   root,
-    //   { userId, title, ingredients, direction },
-    //   { models }
-    // ) {
-    //   return models.Recipe.create({ userId, title, ingredients, direction });
-    // },
-  },
 
-  //   User: {
-  //     async recipes(user) {
-  //       return user.getRecipes();
-  //     },
-  //   },
-  //   Recipe: {
-  //     async user(recipe) {
-  //       return recipe.getUser();
-  //     },
-  //   },
+    async login(root, { email, password }, { models }) {
+      const user = await models.User.findOne({
+        where: {
+          email,
+        },
+      });
+
+      if (!user) {
+        throw new error('Invalid Credentials');
+      }
+
+      const valid = await bcrypt.compare(password, user.password);
+
+      if (!valid) {
+        throw new error('Invalid Credentials');
+      }
+
+      return jsonwebtoken.sign(
+        { id: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '3600' }
+      );
+    },
+  },
 };
 
 module.exports = resolvers;

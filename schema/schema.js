@@ -45,6 +45,7 @@ const typeDefs = gql`
       department: String!
     ): User!
     deleteUser(id: Int!): User
+    login(email: String!, password: String!): String
 
     # createRecipe(
     #   userId: Int!
