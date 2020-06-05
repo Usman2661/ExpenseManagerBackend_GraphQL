@@ -10,20 +10,10 @@ const typeDefs = gql`
     department: String!
   }
 
-  # type Recipe {
-  #   id: Int!
-  #   title: String!
-  #   ingredients: String!
-  #   direction: String!
-  #   user: User!
-  # }
-
   type Query {
     user(id: Int!): User!
     allUsers: [User!]!
-    # allRecipes: [Recipe!]!
-
-    # recipe(id: Int!): Recipe
+    me: User!
   }
 
   type Mutation {
@@ -46,13 +36,6 @@ const typeDefs = gql`
     ): String
     deleteUser(id: Int!): User
     login(email: String!, password: String!): String
-
-    # createRecipe(
-    #   userId: Int!
-    #   title: String!
-    #   ingredients: String!
-    #   direction: String!
-    # ): Recipe!
   }
 `;
 

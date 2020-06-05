@@ -6,11 +6,20 @@ const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema/schema');
 const resolvers = require('./resolvers/resolvers');
 const models = require('./models');
+var getUser = require('./auth/auth');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: { models },
+  context: ({ req }) => {
+    const tokenWithBearer = req.headers.authorization || '';
+    const token = tokenWithBearer.split(' ')[1];
+    const user = getUser(token);
+    return {
+      models,
+      user,
+    };
+  },
 });
 
 server

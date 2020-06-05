@@ -8,16 +8,19 @@ const resolvers = {
       const user = await models.User.findByPk(id);
       return user;
     },
-    // async allRecipes(root, args, { models }) {
-    //   return models.Recipe.findAll();
-    // },
+
     async allUsers(root, args, { models }) {
       const allUsers = models.User.findAll();
       return allUsers;
     },
-    // async recipe(root, { id }, { models }) {
-    //   return models.Recipe.findByPk(id);
-    // },
+
+    async me(root, args, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
+      const myuser = await models.User.findByPk(user.id);
+      return myuser;
+    },
   },
 
   Mutation: {
@@ -68,8 +71,6 @@ const resolvers = {
         }
       );
 
-      console.log(updatedUser);
-
       return updatedUser;
     },
 
@@ -94,11 +95,13 @@ const resolvers = {
         throw new Error('Your account is pending approval');
       }
 
-      return jsonwebtoken.sign(
+      const token = jsonwebtoken.sign(
         { id: user.id, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: '3600' }
+        { expiresIn: '1h' }
       );
+
+      return token;
     },
   },
 };
