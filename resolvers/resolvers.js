@@ -56,7 +56,7 @@ const resolvers = {
         {
           name,
           email,
-          password,
+          password: await bcrypt.hash(password, 10),
           userType,
           jobTitle,
           department,
@@ -67,6 +67,8 @@ const resolvers = {
           },
         }
       );
+
+      console.log(updatedUser);
 
       return updatedUser;
     },
@@ -79,13 +81,17 @@ const resolvers = {
       });
 
       if (!user) {
-        throw new error('Invalid Credentials');
+        throw new Error('Invalid Credentials');
       }
 
       const valid = await bcrypt.compare(password, user.password);
 
       if (!valid) {
-        throw new error('Invalid Credentials');
+        throw new Error('Invalid Credentials');
+      }
+
+      if (!user.userType) {
+        throw new Error('Your account is pending approval');
       }
 
       return jsonwebtoken.sign(

@@ -43,7 +43,7 @@ const typeDefs = gql`
       userType: String
       jobTitle: String!
       department: String!
-    ): User!
+    ): String
     deleteUser(id: Int!): User
     login(email: String!, password: String!): String
 
