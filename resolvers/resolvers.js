@@ -96,12 +96,15 @@ const resolvers = {
       }
 
       const token = jsonwebtoken.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, userType: user.userType },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
 
-      return token;
+      return {
+        token,
+        user,
+      };
     },
   },
 };
