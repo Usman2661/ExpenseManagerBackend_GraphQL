@@ -9,9 +9,17 @@ const resolvers = {
       return user;
     },
 
-    async allUsers(root, args, { models }) {
-      const allUsers = models.User.findAll();
-      return allUsers;
+    async allUsers(root, args, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
+
+      if (user.userType === 'SeniorManagement') {
+        const allUsers = models.User.findAll();
+        return allUsers;
+      } else {
+        throw new Error('Not Authenticated');
+      }
     },
 
     async me(root, args, { models, user }) {
@@ -41,6 +49,9 @@ const resolvers = {
       return createdUser;
     },
     async deleteUser(root, { id }, { models }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       const deletedUser = await models.User.destroy({
         where: {
           id,
@@ -55,6 +66,9 @@ const resolvers = {
       { id, name, email, password, userType, jobTitle, department },
       { models }
     ) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       const updatedUser = await models.User.update(
         {
           name,
