@@ -8,6 +8,8 @@ const resolvers = require('./resolvers/resolvers');
 const models = require('./models');
 var getUser = require('./auth/auth');
 
+models.sequelize.sync({});
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,

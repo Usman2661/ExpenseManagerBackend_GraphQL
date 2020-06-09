@@ -14,12 +14,12 @@ const resolvers = {
         throw new Error('Not Authenticated');
       }
 
-      if (user.userType === 'SeniorManagement') {
-        const allUsers = models.User.findAll();
-        return allUsers;
-      } else {
+      if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
+
+      const allUsers = models.User.findAll();
+      return allUsers;
     },
 
     async me(root, args, { models, user }) {
@@ -48,25 +48,41 @@ const resolvers = {
 
       return createdUser;
     },
-    async deleteUser(root, { id }, { models }) {
+    async deleteUser(root, { id }, { models, user }) {
       if (!user) {
+        throw new Error('Not Authenticated');
+      }
+
+      if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
       const deletedUser = await models.User.destroy({
         where: {
           id,
         },
+        returning: true,
+        plain: true,
       });
 
-      return deletedUser;
+      if (!deletedUser) {
+        throw new Error('There was an error while deleting user');
+      }
+
+      return {
+        id,
+      };
     },
 
     async updateUser(
       root,
       { id, name, email, password, userType, jobTitle, department },
-      { models }
+      { models, user }
     ) {
       if (!user) {
+        throw new Error('Not Authenticated');
+      }
+
+      if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
       const updatedUser = await models.User.update(
@@ -82,10 +98,18 @@ const resolvers = {
           where: {
             id,
           },
+          returning: true,
+          plain: true,
         }
       );
 
-      return updatedUser;
+      const myUpdatedUser = updatedUser[1].dataValues;
+
+      if (!myUpdatedUser.id) {
+        throw new Error('There was a problem updating user');
+      }
+
+      return myUpdatedUser;
     },
 
     async login(root, { email, password }, { models }) {
