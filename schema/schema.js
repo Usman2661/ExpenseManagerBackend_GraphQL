@@ -29,7 +29,6 @@ const typeDefs = gql`
       id: Int!
       name: String!
       email: String!
-      password: String!
       userType: String
       jobTitle: String!
       department: String!

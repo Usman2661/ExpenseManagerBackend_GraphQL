@@ -75,7 +75,7 @@ const resolvers = {
 
     async updateUser(
       root,
-      { id, name, email, password, userType, jobTitle, department },
+      { id, name, email, userType, jobTitle, department },
       { models, user }
     ) {
       if (!user) {
@@ -85,11 +85,11 @@ const resolvers = {
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
+
       const updatedUser = await models.User.update(
         {
           name,
           email,
-          password: await bcrypt.hash(password, 10),
           userType,
           jobTitle,
           department,
