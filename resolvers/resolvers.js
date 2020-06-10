@@ -48,6 +48,25 @@ const resolvers = {
 
       return createdUser;
     },
+
+    async createExpense(
+      root,
+      { title, description, type, status, amount },
+      { models, user }
+    ) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
+      const createdExpense = await models.Expense.create({
+        userId: user.id,
+        title,
+        description,
+        amount,
+        type,
+      });
+
+      return createdExpense;
+    },
     async deleteUser(root, { id }, { models, user }) {
       if (!user) {
         throw new Error('Not Authenticated');

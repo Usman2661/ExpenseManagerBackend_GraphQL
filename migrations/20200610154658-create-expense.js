@@ -26,7 +26,7 @@ module.exports = {
       status: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-        default: false,
+        defaultValue: false,
       },
       recipt: {
         type: Sequelize.STRING,

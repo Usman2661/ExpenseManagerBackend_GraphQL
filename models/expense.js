@@ -3,6 +3,10 @@ module.exports = (sequelize, DataTypes) => {
   const Expense = sequelize.define(
     'Expense',
     {
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -17,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        default: false,
+        defaultValue: false,
       },
       recipt: {
         type: DataTypes.STRING,

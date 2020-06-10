@@ -8,6 +8,19 @@ const typeDefs = gql`
     userType: String
     jobTitle: String!
     department: String!
+    expenses: [Expense!]
+  }
+
+  type Expense {
+    id: Int!
+    title: String!
+    description: String
+    type: String!
+    amount: Float!
+    status: Boolean!
+    recipt: String
+    date: String
+    user: User!
   }
 
   type Query {
@@ -25,6 +38,12 @@ const typeDefs = gql`
       jobTitle: String!
       department: String!
     ): User!
+    createExpense(
+      title: String!
+      description: String!
+      type: String!
+      amount: Float!
+    ): Expense!
     updateUser(
       id: Int!
       name: String!
