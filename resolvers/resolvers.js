@@ -119,7 +119,7 @@ const resolvers = {
 
     async updateUser(
       root,
-      { id, name, email, userType, jobTitle, department },
+      { id, name, email, userType, jobTitle, department, managerId },
       { models, user }
     ) {
       if (user.userType !== 'SeniorManagement') {
@@ -133,6 +133,7 @@ const resolvers = {
           userType,
           jobTitle,
           department,
+          managerId,
         },
         {
           where: {
