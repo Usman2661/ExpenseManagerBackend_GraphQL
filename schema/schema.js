@@ -8,7 +8,7 @@ const typeDefs = gql`
     userType: String
     jobTitle: String!
     department: String!
-    expenses: [Expense!]
+    Expenses: [Expense!]
   }
 
   type Expense {
@@ -20,13 +20,14 @@ const typeDefs = gql`
     status: Boolean!
     recipt: String
     date: String
-    user: User!
+    user: User
   }
 
   type Query {
     user(id: Int!): User!
     allUsers: [User!]!
     me: User!
+    managerExpenses: managerExpenseResponse!
   }
 
   type Mutation {
@@ -63,6 +64,10 @@ const typeDefs = gql`
   type LoginResponse {
     token: String
     user: User
+  }
+  type managerExpenseResponse {
+    user: User!
+    expenses: [Expense]
   }
 `;
 

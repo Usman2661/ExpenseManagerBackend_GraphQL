@@ -10,15 +10,12 @@ const resolvers = {
     },
 
     async allUsers(root, args, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
 
-      const allUsers = models.User.findAll();
+      const allUsers = await models.User.findAll();
+
       return allUsers;
     },
 
@@ -26,8 +23,41 @@ const resolvers = {
       if (!user) {
         throw new Error('Not Authenticated');
       }
+
+      const myUser = await models.User.findByPk(user.id, {
+        include: [
+          {
+            model: models.Expense,
+            as: 'Expenses',
+          },
+        ],
+      });
+
+      return myUser;
+    },
+
+    async managerExpenses(root, args, { models, user }) {
+      if (user.userType !== 'SeniorManagement' && user.userType !== 'Manager') {
+        throw new Error('Not Authenticated');
+      }
+
       const myuser = await models.User.findByPk(user.id);
-      return myuser;
+
+      const expenses = await models.Expense.findAll({
+        include: [
+          {
+            model: models.User,
+            as: 'User',
+            where: {
+              managerId: user.id,
+            },
+          },
+        ],
+      });
+      return {
+        user: myuser,
+        expenses,
+      };
     },
   },
 
@@ -68,10 +98,6 @@ const resolvers = {
       return createdExpense;
     },
     async deleteUser(root, { id }, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
@@ -97,10 +123,6 @@ const resolvers = {
       { id, name, email, userType, jobTitle, department },
       { models, user }
     ) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
