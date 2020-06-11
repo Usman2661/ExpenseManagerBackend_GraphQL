@@ -8,6 +8,7 @@ const typeDefs = gql`
     userType: String
     jobTitle: String!
     department: String!
+    managerId: Int
     Expenses: [Expense!]
   }
 

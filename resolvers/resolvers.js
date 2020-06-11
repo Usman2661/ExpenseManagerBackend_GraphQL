@@ -15,7 +15,6 @@ const resolvers = {
       }
 
       const allUsers = await models.User.findAll();
-
       return allUsers;
     },
 
@@ -173,9 +172,17 @@ const resolvers = {
       if (!user.userType) {
         throw new Error('Your account is pending approval');
       }
+      if (!user.managerId) {
+        throw new Error('Your account is pending approval');
+      }
 
       const token = jsonwebtoken.sign(
-        { id: user.id, email: user.email, userType: user.userType },
+        {
+          id: user.id,
+          email: user.email,
+          userType: user.userType,
+          managerId: user.managerId,
+        },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
       );
