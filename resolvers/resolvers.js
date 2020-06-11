@@ -4,9 +4,15 @@ require('dotenv').config();
 
 const resolvers = {
   Query: {
-    async user(root, { id }, { models }) {
-      const user = await models.User.findByPk(id);
-      return user;
+    async user(root, { id }, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
+      if (user.userType !== 'SeniorManagement') {
+        throw new Error('Not Authenticated');
+      }
+      const myuser = await models.User.findByPk(id);
+      return myuser;
     },
 
     async allUsers(root, args, { models, user }) {
