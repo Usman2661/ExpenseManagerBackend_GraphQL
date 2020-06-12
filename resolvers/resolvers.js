@@ -16,6 +16,9 @@ const resolvers = {
     },
 
     async allUsers(root, args, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
@@ -42,6 +45,9 @@ const resolvers = {
     },
 
     async managerExpenses(root, args, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       if (user.userType !== 'SeniorManagement' && user.userType !== 'Manager') {
         throw new Error('Not Authenticated');
       }
@@ -103,6 +109,9 @@ const resolvers = {
       return createdExpense;
     },
     async deleteUser(root, { id }, { models, user }) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
@@ -128,6 +137,9 @@ const resolvers = {
       { id, name, email, userType, jobTitle, department, managerId },
       { models, user }
     ) {
+      if (!user) {
+        throw new Error('Not Authenticated');
+      }
       if (user.userType !== 'SeniorManagement') {
         throw new Error('Not Authenticated');
       }
