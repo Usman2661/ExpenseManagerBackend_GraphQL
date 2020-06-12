@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
+var UserPermission = require('../auth/authPermission');
+var ManagerPermission = require('../auth/authPermission');
+var SeniorManagementPermission = require('../auth/authPermission');
+var ManagerAndSeniorManagementPermission = require('../auth/authPermission');
 
 const resolvers = {
   Query: {
