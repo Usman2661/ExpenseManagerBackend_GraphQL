@@ -28,7 +28,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
         validate: {
-          isIn: [['Staff', 'Manager', 'SeniorManagement']],
+          isIn: [['Staff', 'Manager', 'SeniorManagement', 'Admin']],
         },
       },
       jobTitle: {
