@@ -11,6 +11,9 @@ module.exports = {
       receipt: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          isUrl: true,
+        },
       },
       createdAt: {
         allowNull: false,

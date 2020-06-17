@@ -6,6 +6,9 @@ module.exports = (sequelize, DataTypes) => {
       receipt: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          isUrl: true,
+        },
       },
     },
     {}
