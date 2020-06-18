@@ -9,7 +9,7 @@ const company = gql`
     addressThirdLine: String
     postcode: String!
     phone: Int!
-    registerDate: String!
+    registerDate: String
   }
 
   extend type Query {
@@ -25,7 +25,7 @@ const company = gql`
       addressThirdLine: String
       postcode: String!
       phone: Int!
-      registerDate: String!
+      registerDate: String
     ): Company!
   }
 `;

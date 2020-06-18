@@ -32,10 +32,12 @@ const CompanyResolver = {
       },
       { models, user }
     ) {
-      if (!user && user.userType !== 'Admin') {
+      if (!user) {
         throw new Error('Not Authenticated');
       }
-
+      if (user.userType !== 'Admin') {
+        throw new Error('Not Authenticated');
+      }
       const createdCompany = await models.Company.create({
         name,
         addressFirstLine,

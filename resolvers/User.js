@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 
-const resolvers = {
+const UserResolver = {
   Query: {
     async user(root, { id }, { models, user }) {
       if (!user) {
@@ -43,33 +43,6 @@ const resolvers = {
 
       return myUser;
     },
-
-    async managerExpenses(root, args, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement' && user.userType !== 'Manager') {
-        throw new Error('Not Authenticated');
-      }
-
-      const myuser = await models.User.findByPk(user.id);
-
-      const expenses = await models.Expense.findAll({
-        include: [
-          {
-            model: models.User,
-            as: 'User',
-            where: {
-              managerId: user.id,
-            },
-          },
-        ],
-      });
-      return {
-        user: myuser,
-        expenses,
-      };
-    },
   },
 
   Mutation: {
@@ -88,25 +61,6 @@ const resolvers = {
       });
 
       return createdUser;
-    },
-
-    async createExpense(
-      root,
-      { title, description, type, status, amount },
-      { models, user }
-    ) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      const createdExpense = await models.Expense.create({
-        userId: user.id,
-        title,
-        description,
-        amount,
-        type,
-      });
-
-      return createdExpense;
     },
     async deleteUser(root, { id }, { models, user }) {
       if (!user) {
@@ -214,4 +168,4 @@ const resolvers = {
   },
 };
 
-module.exports = resolvers;
+module.exports = UserResolver;
