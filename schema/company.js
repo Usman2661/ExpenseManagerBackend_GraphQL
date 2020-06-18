@@ -9,7 +9,7 @@ const company = gql`
     addressThirdLine: String
     postcode: String!
     phone: Int!
-    registerDate: String
+    registerDate: String!
   }
 
   extend type Query {
@@ -24,9 +24,19 @@ const company = gql`
       addressSecondLine: String
       addressThirdLine: String
       postcode: String!
-      phone: Int!
+      phone: Float!
       registerDate: String
     ): Company!
+    updateCompany(
+      name: String!
+      addressFirstLine: String!
+      addressSecondLine: String
+      addressThirdLine: String
+      postcode: String!
+      phone: Float!
+      registerDate: String!
+    ): Company
+    deleteCompany(id: Int!): DeleteResponse
   }
 `;
 

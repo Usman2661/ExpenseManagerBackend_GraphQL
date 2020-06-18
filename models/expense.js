@@ -15,9 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       status: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: false,
+        default: 'Pending',
+        validate: {
+          isIn: [['Pending', 'Approved', 'Rejected']],
+        },
       },
       amount: {
         type: DataTypes.DECIMAL,

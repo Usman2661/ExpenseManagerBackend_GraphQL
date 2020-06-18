@@ -24,8 +24,15 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 8],
         },
       },
-      registerDate: {
-        type: DataTypes.DATE,
+      registerYear: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          len: [3, 4],
+        },
+      },
+      businessArea: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       phone: {
