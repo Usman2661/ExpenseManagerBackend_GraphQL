@@ -1,10 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
-var UserPermission = require('../auth/authPermission');
-var ManagerPermission = require('../auth/authPermission');
-var SeniorManagementPermission = require('../auth/authPermission');
-var ManagerAndSeniorManagementPermission = require('../auth/authPermission');
 
 const resolvers = {
   Query: {
@@ -195,7 +191,7 @@ const resolvers = {
       if (!user.userType) {
         throw new Error('Your account is pending approval');
       }
-      if (!user.managerId) {
+      if (!user.companyId && user.userType !== 'Admin') {
         throw new Error('Your account is pending approval');
       }
 

@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server');
 
-const typeDefs = gql`
+const User = gql`
   type User {
     id: Int!
     name: String!
@@ -9,29 +9,17 @@ const typeDefs = gql`
     jobTitle: String!
     department: String!
     managerId: Int
+    companyId: Int
     Expenses: [Expense!]
   }
 
-  type Expense {
-    id: Int!
-    title: String!
-    description: String
-    type: String!
-    amount: Float!
-    status: Boolean!
-    recipt: String
-    date: String
-    user: User
-  }
-
-  type Query {
+  extend type Query {
     user(id: Int!): User!
     allUsers: [User!]!
     me: User!
-    managerExpenses: managerExpenseResponse!
   }
 
-  type Mutation {
+  extend type Mutation {
     createUser(
       name: String!
       email: String!
@@ -40,12 +28,6 @@ const typeDefs = gql`
       jobTitle: String!
       department: String!
     ): User!
-    createExpense(
-      title: String!
-      description: String!
-      type: String!
-      amount: Float!
-    ): Expense!
     updateUser(
       id: Int!
       name: String!
@@ -54,6 +36,7 @@ const typeDefs = gql`
       jobTitle: String!
       department: String!
       managerId: Int
+      companyId: Int
     ): User
     deleteUser(id: Int!): DeleteResponse
     login(email: String!, password: String!): LoginResponse!
@@ -67,10 +50,6 @@ const typeDefs = gql`
     token: String
     user: User
   }
-  type managerExpenseResponse {
-    user: User!
-    expenses: [Expense]
-  }
 `;
 
-module.exports = typeDefs;
+module.exports = User;

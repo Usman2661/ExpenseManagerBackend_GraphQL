@@ -3,12 +3,12 @@ const port = process.env.PORT || 4000;
 const dotenv = require('dotenv');
 dotenv.config();
 const { ApolloServer } = require('apollo-server');
-const typeDefs = require('./schema/schema');
+const typeDefs = require('./schema');
 const resolvers = require('./resolvers/resolvers');
 const models = require('./models');
 var getUser = require('./auth/auth');
 
-models.sequelize.sync({});
+models.sequelize.sync();
 
 const server = new ApolloServer({
   typeDefs,
