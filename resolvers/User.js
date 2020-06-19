@@ -1,14 +1,12 @@
 const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
+var AdminSeniorManagementPermission = require('../auth/AdminSeniorManagementPermission');
 
 const UserResolver = {
   Query: {
     async user(root, { id }, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement') {
+      if (!(await AdminSeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
       const myuser = await models.User.findByPk(id);
@@ -16,14 +14,25 @@ const UserResolver = {
     },
 
     async allUsers(root, args, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement') {
+      if (!(await AdminSeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
 
-      const allUsers = await models.User.findAll();
+      let allUsers;
+      if (user.userType === 'Admin') {
+        allUsers = await models.User.findAll({
+          where: {
+            userType: 'SeniorManagement',
+          },
+        });
+      }
+      if (user.userType === 'SeniorManagement') {
+        allUsers = await models.User.findAll({
+          where: {
+            companyId: user.companyId,
+          },
+        });
+      }
       return allUsers;
     },
 
@@ -48,25 +57,42 @@ const UserResolver = {
   Mutation: {
     async createUser(
       root,
-      { name, email, password, userType, jobTitle, department },
-      { models }
+      { name, email, password, userType, jobTitle, department, companyId },
+      { models, user }
     ) {
-      const createdUser = await models.User.create({
-        name,
-        email,
-        password: await bcrypt.hash(password, 10),
-        userType,
-        jobTitle,
-        department,
-      });
+      if (!(await AdminSeniorManagementPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      let createdUser;
+      if (user.userType === 'SeniorManagement') {
+        createdUser = await models.User.create({
+          name,
+          email,
+          password: await bcrypt.hash(password, 10),
+          userType,
+          jobTitle,
+          department,
+          companyId: user.companyId,
+        });
+      }
+
+      if (user.userType === 'Admin') {
+        createdUser = await models.User.create({
+          name,
+          email,
+          password: await bcrypt.hash(password, 10),
+          userType,
+          jobTitle,
+          department,
+          companyId,
+        });
+      }
 
       return createdUser;
     },
     async deleteUser(root, { id }, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement') {
+      if (!(await AdminSeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
       const deletedUser = await models.User.destroy({
@@ -155,6 +181,7 @@ const UserResolver = {
           email: user.email,
           userType: user.userType,
           managerId: user.managerId,
+          companyId: user.companyId,
         },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }

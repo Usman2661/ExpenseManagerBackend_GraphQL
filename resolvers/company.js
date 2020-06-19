@@ -1,10 +1,9 @@
+var AdminPermission = require('../auth/AdminPermission');
+
 const CompanyResolver = {
   Query: {
     async company(root, { id }, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'Admin') {
+      if (!(await AdminPermission(user))) {
         throw new Error('Not Authenticated');
       }
 
@@ -16,10 +15,7 @@ const CompanyResolver = {
     },
 
     async allCompanies(root, args, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'Admin') {
+      if (!(await AdminPermission(user))) {
         throw new Error('Not Authenticated');
       }
 
@@ -43,10 +39,7 @@ const CompanyResolver = {
       },
       { models, user }
     ) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'Admin') {
+      if (!(await AdminPermission(user))) {
         throw new Error('Not Authenticated');
       }
       const createdCompany = await models.Company.create({
@@ -63,10 +56,7 @@ const CompanyResolver = {
       return createdCompany;
     },
     async deleteCompany(root, { id }, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'Admin') {
+      if (!(await AdminPermission(user))) {
         throw new Error('Not Authenticated');
       }
       const deletedCompany = await models.Company.destroy({
@@ -101,10 +91,7 @@ const CompanyResolver = {
       },
       { models, user }
     ) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'Admin') {
+      if (!(await AdminPermission(user))) {
         throw new Error('Not Authenticated');
       }
 

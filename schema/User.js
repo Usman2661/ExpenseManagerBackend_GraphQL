@@ -26,6 +26,7 @@ const User = gql`
       password: String!
       userType: String
       jobTitle: String!
+      companyId: Int
       department: String!
     ): User!
     updateUser(

@@ -8,7 +8,7 @@ const company = gql`
     addressSecondLine: String
     addressThirdLine: String
     postcode: String!
-    phone: Int!
+    phone: String!
     businessArea: String!
     registerYear: Int!
   }
@@ -25,7 +25,7 @@ const company = gql`
       addressSecondLine: String
       addressThirdLine: String
       postcode: String!
-      phone: Int!
+      phone: String!
       businessArea: String!
       registerYear: Int!
     ): Company!
@@ -36,7 +36,7 @@ const company = gql`
       addressSecondLine: String
       addressThirdLine: String
       postcode: String!
-      phone: Int!
+      phone: String!
       businessArea: String!
       registerYear: Int!
     ): Company
