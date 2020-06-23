@@ -70,7 +70,16 @@ const UserResolver = {
   Mutation: {
     async createUser(
       root,
-      { name, email, password, userType, jobTitle, department, companyId },
+      {
+        name,
+        email,
+        password,
+        userType,
+        jobTitle,
+        department,
+        companyId,
+        managerId,
+      },
       { models, user }
     ) {
       if (!(await AdminSeniorManagementPermission(user))) {
@@ -86,6 +95,7 @@ const UserResolver = {
           userType,
           jobTitle,
           department,
+          managerId,
           companyId: user.companyId,
         });
       }
@@ -97,6 +107,7 @@ const UserResolver = {
           password: await bcrypt.hash(password, 10),
           userType,
           jobTitle,
+          managerId,
           department,
           companyId,
         });
@@ -127,7 +138,7 @@ const UserResolver = {
 
     async updateUser(
       root,
-      { id, name, email, userType, jobTitle, department, managerId },
+      { id, name, email, userType, jobTitle, department, managerId, companyId },
       { models, user }
     ) {
       if (!(await AdminSeniorManagementPermission(user))) {
@@ -142,6 +153,7 @@ const UserResolver = {
           jobTitle,
           department,
           managerId,
+          companyId,
         },
         {
           where: {
