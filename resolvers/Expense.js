@@ -1,10 +1,10 @@
+var ManagerSeniorManagementPermission = require('../auth/ManagerAndSeniorManagementPermission');
+var UserPermission = require('../auth/UserPermission');
+
 const ExpenseResolver = {
   Query: {
     async managerExpenses(root, args, { models, user }) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement' && user.userType !== 'Manager') {
+      if (!(await ManagerSeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
 
@@ -34,9 +34,10 @@ const ExpenseResolver = {
       { title, description, type, status, amount },
       { models, user }
     ) {
-      if (!user) {
+      if (!(await UserPermission(user))) {
         throw new Error('Not Authenticated');
       }
+
       const createdExpense = await models.Expense.create({
         userId: user.id,
         title,
