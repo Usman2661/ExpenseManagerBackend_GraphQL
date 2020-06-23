@@ -24,13 +24,26 @@ const UserResolver = {
           where: {
             userType: 'SeniorManagement',
           },
+          include: [
+            {
+              model: models.Company,
+              as: 'Company',
+            },
+          ],
         });
       }
+
       if (user.userType === 'SeniorManagement') {
         allUsers = await models.User.findAll({
           where: {
             companyId: user.companyId,
           },
+          include: [
+            {
+              model: models.Company,
+              as: 'Company',
+            },
+          ],
         });
       }
       return allUsers;
@@ -117,10 +130,7 @@ const UserResolver = {
       { id, name, email, userType, jobTitle, department, managerId },
       { models, user }
     ) {
-      if (!user) {
-        throw new Error('Not Authenticated');
-      }
-      if (user.userType !== 'SeniorManagement') {
+      if (!(await AdminSeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
 

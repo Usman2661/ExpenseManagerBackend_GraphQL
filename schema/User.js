@@ -11,6 +11,7 @@ const User = gql`
     managerId: Int
     companyId: Int
     Expenses: [Expense!]
+    Company: Company
   }
 
   extend type Query {
