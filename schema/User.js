@@ -28,6 +28,7 @@ const User = gql`
       userType: String
       jobTitle: String!
       companyId: Int
+      managerId: Int
       department: String!
     ): User!
     updateUser(
