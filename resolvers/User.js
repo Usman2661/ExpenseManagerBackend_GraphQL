@@ -171,6 +171,14 @@ const UserResolver = {
 
       const myUpdatedUser = updatedUser[1].dataValues;
 
+      const compId = myUpdatedUser.companyId;
+
+      const myCompany = await models.Company.findByPk(compId);
+
+      myUpdatedUser.Company = myCompany.dataValues;
+
+      console.log(myUpdatedUser);
+
       if (!myUpdatedUser.id) {
         throw new Error('There was a problem updating user');
       }
