@@ -18,6 +18,7 @@ models.sequelize.sync();
 const app = express();
 app.use(bodyParser.json());
 
+app.use(express.static('public'));
 app.use('/api/expense', expenseRoutes);
 app.listen(3001, () =>
   console.log(`Express Server started on port localhost:3001`)

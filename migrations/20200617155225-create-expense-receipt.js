@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          isUrl: true,
+          contains: 'http',
         },
       },
       createdAt: {
