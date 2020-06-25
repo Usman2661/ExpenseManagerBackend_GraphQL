@@ -44,8 +44,6 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function (models) {
     User.hasMany(models.Expense, { foreignKey: 'userId' });
     User.belongsTo(models.Company, {
-      onDelete: 'CASCADE',
-      hooks: true,
       foreignKey: 'companyId',
     });
   };
