@@ -8,7 +8,6 @@ const Expense = gql`
     type: String!
     amount: Float!
     status: String!
-    recipt: String
     date: String
     User: User
     ExpenseReceipts: [ExpenseReceipt]
