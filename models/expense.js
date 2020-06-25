@@ -35,10 +35,11 @@ module.exports = (sequelize, DataTypes) => {
   Expense.associate = function (models) {
     Expense.belongsTo(models.User, {
       onDelete: 'CASCADE',
+      hooks: true,
       foreignKey: 'userId',
     });
     Expense.hasMany(models.ExpenseReceipt, {
-      foreignKey: 'expenseId',
+      hooks: true,
     });
   };
   return Expense;

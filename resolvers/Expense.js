@@ -138,6 +138,7 @@ const ExpenseResolver = {
       const deletedExpense = await models.Expense.destroy({
         where: {
           id,
+          userId: user.id,
         },
         returning: true,
         plain: true,
