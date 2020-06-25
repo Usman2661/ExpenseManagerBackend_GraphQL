@@ -43,6 +43,7 @@ const ExpenseResolver = {
         title,
         description,
         amount,
+        status,
         type,
       });
 

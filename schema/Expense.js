@@ -7,7 +7,7 @@ const Expense = gql`
     description: String
     type: String!
     amount: Float!
-    status: Boolean!
+    status: String!
     recipt: String
     date: String
     user: User
@@ -20,7 +20,8 @@ const Expense = gql`
   extend type Mutation {
     createExpense(
       title: String!
-      description: String!
+      description: String
+      status: String!
       type: String!
       amount: Float!
     ): Expense!
