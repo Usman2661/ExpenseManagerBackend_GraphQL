@@ -10,21 +10,38 @@ const Expense = gql`
     status: String!
     recipt: String
     date: String
-    user: User
+    User: User
+    ExpenseReceipts: [ExpenseReceipt]
+  }
+
+  type ExpenseReceipt {
+    id: Int!
+    expenseId: Int!
+    receipt: String!
   }
 
   extend type Query {
     managerExpenses: managerExpenseResponse!
+    allExpenses: [Expense!]!
+    expense(id: Int!): Expense!
   }
 
   extend type Mutation {
     createExpense(
       title: String!
       description: String
-      status: String!
       type: String!
       amount: Float!
     ): Expense!
+    updateExpense(
+      id: Int!
+      title: String!
+      description: String
+      status: String
+      type: String!
+      amount: Float!
+    ): Expense
+    deleteExpense(id: Int!): DeleteResponse
   }
 
   type managerExpenseResponse {

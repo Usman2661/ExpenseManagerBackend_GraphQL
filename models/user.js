@@ -43,7 +43,10 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.associate = function (models) {
     User.hasMany(models.Expense, { foreignKey: 'userId' });
-    User.belongsTo(models.Company, { foreignKey: 'companyId' });
+    User.belongsTo(models.Company, {
+      onDelete: 'CASCADE',
+      foreignKey: 'companyId',
+    });
   };
   return User;
 };

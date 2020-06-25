@@ -59,6 +59,11 @@ const UserResolver = {
           {
             model: models.Expense,
             as: 'Expenses',
+            include: [
+              {
+                model: models.ExpenseReceipt,
+              },
+            ],
           },
         ],
       });
