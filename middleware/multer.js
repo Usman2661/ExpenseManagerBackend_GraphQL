@@ -12,5 +12,5 @@ const diskStorageToUploads = multer.diskStorage({
 const saveReciepts = multer({ storage: diskStorageToUploads });
 
 module.exports = {
-  saveReciepts: saveReciepts.array('file', 5),
+  saveReciepts: saveReciepts.array('file', 10),
 };
