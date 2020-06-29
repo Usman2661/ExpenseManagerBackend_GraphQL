@@ -48,6 +48,10 @@ const ExpenseResolver = {
           },
         ],
       });
+
+      if (!myExpense) {
+        throw new Error('Unable to retreive expense');
+      }
       return myExpense;
     },
 
