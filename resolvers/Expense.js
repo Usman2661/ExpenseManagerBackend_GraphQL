@@ -155,6 +155,46 @@ const ExpenseResolver = {
         id,
       };
     },
+    async deleteExpenseReceipt(root, { id }, { models, user }) {
+      if (!(await UserPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const receiptVerify = await models.ExpenseReceipt.findAll({
+        where: {
+          id,
+        },
+        include: [
+          {
+            model: models.Expense,
+            where: {
+              userId: user.id,
+            },
+          },
+        ],
+      });
+
+      console.log(receiptVerify);
+
+      if (receiptVerify) {
+        const deletedExpenseReceipt = await models.ExpenseReceipt.destroy({
+          where: {
+            id,
+          },
+          returning: true,
+          plain: true,
+        });
+
+        if (!deletedExpenseReceipt) {
+          throw new Error('There was an error while deleting expense receipt');
+        }
+        return {
+          id,
+        };
+      } else {
+        throw new Error('There was an error while deleting expense receipt');
+      }
+    },
   },
 };
 
