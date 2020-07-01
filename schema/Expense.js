@@ -38,7 +38,7 @@ const Expense = gql`
       description: String
       status: String
       type: String!
-      type: Float!
+      amount: Float!
     ): Expense
     deleteExpense(id: Int!): DeleteResponse
     deleteExpenseReceipt(id: Int!): DeleteResponse
