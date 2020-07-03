@@ -8,8 +8,6 @@ const ExpenseResolver = {
         throw new Error('Not Authenticated');
       }
 
-      const myuser = await models.User.findByPk(user.id);
-
       const expenses = await models.Expense.findAll({
         include: [
           {
@@ -24,10 +22,7 @@ const ExpenseResolver = {
           },
         ],
       });
-      return {
-        user: myuser,
-        expenses,
-      };
+      return expenses;
     },
 
     async expense(root, { id }, { models, user }) {
@@ -173,8 +168,6 @@ const ExpenseResolver = {
           },
         ],
       });
-
-      console.log(receiptVerify);
 
       if (receiptVerify) {
         const deletedExpenseReceipt = await models.ExpenseReceipt.destroy({

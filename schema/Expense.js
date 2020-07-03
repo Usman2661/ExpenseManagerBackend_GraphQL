@@ -20,7 +20,7 @@ const Expense = gql`
   }
 
   extend type Query {
-    managerExpenses: managerExpenseResponse!
+    managerExpenses: [Expense!]!
     allExpenses: [Expense!]!
     expense(id: Int!): Expense!
   }

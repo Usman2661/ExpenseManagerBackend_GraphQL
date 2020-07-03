@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 var AdminSeniorManagementPermission = require('../auth/AdminSeniorManagementPermission');
+var ManagerSeniorManagementPermission = require('../auth/ManagerAndSeniorManagementPermission');
 
 const UserResolver = {
   Query: {
@@ -69,6 +70,19 @@ const UserResolver = {
       });
 
       return myUser;
+    },
+
+    async managerUsers(root, args, { models, user }) {
+      if (!(await ManagerSeniorManagementPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const managerUsers = await models.User.findAll({
+        where: {
+          managerId: user.id,
+        },
+      });
+      return managerUsers;
     },
   },
 

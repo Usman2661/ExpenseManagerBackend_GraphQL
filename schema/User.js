@@ -18,6 +18,7 @@ const User = gql`
     user(id: Int!): User!
     allUsers: [User!]!
     me: User!
+    managerUsers: [User!]!
   }
 
   extend type Mutation {
