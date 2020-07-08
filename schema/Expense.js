@@ -9,6 +9,8 @@ const Expense = gql`
     amount: Float!
     status: String!
     date: String
+    createdAt: String
+    updatedAt: String
     User: User
     ExpenseReceipts: [ExpenseReceipt]
   }
@@ -21,6 +23,7 @@ const Expense = gql`
 
   extend type Query {
     managerExpenses: [Expense!]!
+    seniorExpenses: [Expense!]!
     allExpenses: [Expense!]!
     expense(id: Int!): Expense!
   }

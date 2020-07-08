@@ -1,4 +1,5 @@
 var ManagerSeniorManagementPermission = require('../auth/ManagerAndSeniorManagementPermission');
+var SeniorManagementPermission = require('../auth/SeniorManagementPermission');
 var UserPermission = require('../auth/UserPermission');
 
 const ExpenseResolver = {
@@ -15,6 +16,28 @@ const ExpenseResolver = {
             as: 'User',
             where: {
               managerId: user.id,
+            },
+          },
+          {
+            model: models.ExpenseReceipt,
+          },
+        ],
+      });
+      return expenses;
+    },
+
+    async seniorExpenses(root, args, { models, user }) {
+      if (!(await SeniorManagementPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const expenses = await models.Expense.findAll({
+        include: [
+          {
+            model: models.User,
+            as: 'User',
+            where: {
+              companyId: user.companyId,
             },
           },
           {
