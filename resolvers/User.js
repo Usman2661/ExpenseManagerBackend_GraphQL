@@ -205,6 +205,12 @@ const UserResolver = {
         where: {
           email,
         },
+        include: [
+          {
+            model: models.Company,
+            as: 'Company',
+          },
+        ],
       });
 
       if (!user) {
@@ -231,6 +237,7 @@ const UserResolver = {
           userType: user.userType,
           managerId: user.managerId,
           companyId: user.companyId,
+          Company: user.Company,
         },
         process.env.JWT_SECRET,
         { expiresIn: '1h' }
