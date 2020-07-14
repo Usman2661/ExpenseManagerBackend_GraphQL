@@ -12,6 +12,7 @@ const User = gql`
     companyId: Int
     Expenses: [Expense!]
     Company: Company
+    Manager: User
   }
 
   extend type Query {
@@ -53,6 +54,10 @@ const User = gql`
   type LoginResponse {
     token: String
     user: User
+  }
+  type MeResponse {
+    User: User
+    Manager: User
   }
 `;
 

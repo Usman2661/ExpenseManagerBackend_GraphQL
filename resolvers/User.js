@@ -55,11 +55,15 @@ const UserResolver = {
         throw new Error('Not Authenticated');
       }
 
-      const myUser = await models.User.findByPk(user.id, {
+      let myUser;
+      myUser = await models.User.findByPk(user.id, {
         include: [
           {
+            model: models.Company,
+            as: 'Company',
+          },
+          {
             model: models.Expense,
-            as: 'Expenses',
             include: [
               {
                 model: models.ExpenseReceipt,
@@ -68,6 +72,9 @@ const UserResolver = {
           },
         ],
       });
+
+      const manager = await models.User.findByPk(myUser.managerId);
+      myUser['Manager'] = manager;
 
       return myUser;
     },
@@ -190,8 +197,6 @@ const UserResolver = {
       const myCompany = await models.Company.findByPk(compId);
 
       myUpdatedUser.Company = myCompany.dataValues;
-
-      console.log(myUpdatedUser);
 
       if (!myUpdatedUser.id) {
         throw new Error('There was a problem updating user');
