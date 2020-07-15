@@ -45,6 +45,7 @@ const User = gql`
     ): User
     deleteUser(id: Int!): DeleteResponse
     login(email: String!, password: String!): LoginResponse!
+    changePassword(password: String!, newPassword: String!): User
   }
 
   type DeleteResponse {

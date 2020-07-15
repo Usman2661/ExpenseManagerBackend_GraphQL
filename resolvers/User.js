@@ -3,6 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 var AdminSeniorManagementPermission = require('../auth/AdminSeniorManagementPermission');
 var ManagerSeniorManagementPermission = require('../auth/ManagerAndSeniorManagementPermission');
+var UserPermission = require('../auth/UserPermission');
 
 const UserResolver = {
   Query: {
@@ -252,6 +253,45 @@ const UserResolver = {
         token,
         user,
       };
+    },
+
+    async changePassword(root, { password, newPassword }, { models, user }) {
+      if (!(await UserPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const myUser = await models.User.findOne({
+        where: {
+          email: user.email,
+        },
+      });
+
+      if (!myUser) {
+        throw new Error('Invalid old Password');
+      }
+
+      const valid = await bcrypt.compare(password, myUser.password);
+
+      if (!valid) {
+        throw new Error('Invalid Old Password');
+      }
+
+      const updatedUser = await models.User.update(
+        {
+          password: await bcrypt.hash(newPassword, 10),
+        },
+        {
+          where: {
+            id: user.id,
+          },
+          returning: true,
+          plain: true,
+        }
+      );
+
+      const myUpdatedUser = updatedUser[1].dataValues;
+
+      return myUpdatedUser;
     },
   },
 };
