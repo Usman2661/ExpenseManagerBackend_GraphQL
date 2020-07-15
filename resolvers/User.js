@@ -167,7 +167,7 @@ const UserResolver = {
       { id, name, email, userType, jobTitle, department, managerId, companyId },
       { models, user }
     ) {
-      if (!(await AdminSeniorManagementPermission(user))) {
+      if (!(await AdminSeniorManagementPermission(user)) && user.id !== id) {
         throw new Error('Not Authenticated');
       }
 
