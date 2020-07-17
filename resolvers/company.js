@@ -1,4 +1,5 @@
 var AdminPermission = require('../auth/AdminPermission');
+var SeniorManagementPermission = require('../auth/SeniorManagementPermission');
 
 const CompanyResolver = {
   Query: {
@@ -122,6 +123,57 @@ const CompanyResolver = {
       }
 
       return updatedCompany;
+    },
+
+    async createCompanyConfig(
+      root,
+      { logo, appBarColor, companyId },
+      { models, user }
+    ) {
+      if (!(await SeniorManagementPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const createdCompanyConfig = await models.CompanyConfig.create({
+        logo,
+        appBarColor,
+        companyId,
+      });
+
+      return createdCompanyConfig;
+    },
+
+    async updateCompanyConfig(
+      root,
+      { id, logo, appBarColor, companyId },
+      { models, user }
+    ) {
+      if (!(await SeniorManagementPermission(user))) {
+        throw new Error('Not Authenticated');
+      }
+
+      const updateCompanyConfig = await models.CompanyConfig.update(
+        {
+          logo,
+          appBarColor,
+          companyId,
+        },
+        {
+          where: {
+            id,
+          },
+          returning: true,
+          plain: true,
+        }
+      );
+
+      const updatedCompanyConfig = updateCompanyConfig[1].dataValues;
+
+      if (!updatedCompanyConfig.id) {
+        throw new Error('There was a problem updating company settings');
+      }
+
+      return updatedCompanyConfig;
     },
   },
 };

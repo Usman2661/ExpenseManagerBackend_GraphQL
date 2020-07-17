@@ -11,6 +11,14 @@ const company = gql`
     phone: String!
     businessArea: String!
     registerYear: Int!
+    CompanyConfig: CompanyConfig
+  }
+
+  type CompanyConfig {
+    id: Int!
+    logo: String
+    appBarColor: String
+    companyId: Int
   }
 
   extend type Query {
@@ -41,6 +49,18 @@ const company = gql`
       registerYear: Int!
     ): Company
     deleteCompany(id: Int!): DeleteResponse
+
+    createCompanyConfig(
+      logo: String
+      appBarColor: String
+      companyId: Int
+    ): CompanyConfig
+    updateCompanyConfig(
+      id: Int!
+      logo: String
+      appBarColor: String
+      companyId: Int
+    ): CompanyConfig
   }
 `;
 

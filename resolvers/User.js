@@ -62,6 +62,11 @@ const UserResolver = {
           {
             model: models.Company,
             as: 'Company',
+            include: [
+              {
+                model: models.CompanyConfig,
+              },
+            ],
           },
           {
             model: models.Expense,

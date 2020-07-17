@@ -5,6 +5,14 @@ module.exports = (sequelize, DataTypes) => {
     {
       logo: DataTypes.STRING,
       appBarColor: DataTypes.STRING,
+      companyId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Companies',
+          key: 'id',
+        },
+      },
     },
     {}
   );
