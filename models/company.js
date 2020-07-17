@@ -52,6 +52,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
       hooks: true,
     });
+
+    Company.hasOne(models.CompanyConfig, {
+      foreignKey: 'companyId',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
   };
   return Company;
 };
