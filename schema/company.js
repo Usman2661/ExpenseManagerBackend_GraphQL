@@ -50,16 +50,11 @@ const company = gql`
     ): Company
     deleteCompany(id: Int!): DeleteResponse
 
-    createCompanyConfig(
-      logo: String
-      appBarColor: String
-      companyId: Int
-    ): CompanyConfig
+    createCompanyConfig(logo: String, appBarColor: String): CompanyConfig
     updateCompanyConfig(
       id: Int!
       logo: String
       appBarColor: String
-      companyId: Int
     ): CompanyConfig
   }
 `;

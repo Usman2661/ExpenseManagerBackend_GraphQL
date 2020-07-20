@@ -125,11 +125,7 @@ const CompanyResolver = {
       return updatedCompany;
     },
 
-    async createCompanyConfig(
-      root,
-      { logo, appBarColor, companyId },
-      { models, user }
-    ) {
+    async createCompanyConfig(root, { logo, appBarColor }, { models, user }) {
       if (!(await SeniorManagementPermission(user))) {
         throw new Error('Not Authenticated');
       }
@@ -137,7 +133,7 @@ const CompanyResolver = {
       const createdCompanyConfig = await models.CompanyConfig.create({
         logo,
         appBarColor,
-        companyId,
+        companyId: user.companyId,
       });
 
       return createdCompanyConfig;
@@ -145,7 +141,7 @@ const CompanyResolver = {
 
     async updateCompanyConfig(
       root,
-      { id, logo, appBarColor, companyId },
+      { id, logo, appBarColor },
       { models, user }
     ) {
       if (!(await SeniorManagementPermission(user))) {
@@ -156,7 +152,7 @@ const CompanyResolver = {
         {
           logo,
           appBarColor,
-          companyId,
+          companyId: user.companyId,
         },
         {
           where: {
