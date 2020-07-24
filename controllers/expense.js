@@ -1,3 +1,5 @@
+const ExpenseReceipt = require('../models').ExpenseReceipt;
+
 exports.createExpense = async (req, res, next) => {
   if (req.files.length > 0) {
     try {
