@@ -26,9 +26,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL,
         allowNull: false,
       },
-      date: {
-        type: DataTypes.DATE,
-      },
     },
     {}
   );
