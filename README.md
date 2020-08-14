@@ -1,7 +1,7 @@
 # ExpenseManagerBackend_GraphQL
 
-# Setup the config.json file in config/config.json with the following structure with the DB credentials
-# {
+Setup the config.json file in config/config.json with the following structure with the DB credentials
+ {
   "development": {
     "username": "",
     "password": "",
@@ -25,7 +25,7 @@
   }
 }
 
-# Run yarn install to install all the dependancies 
+Run yarn install to install all the dependancies 
 
-# Start the server using yarn start
+Start the server using yarn start
 
