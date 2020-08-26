@@ -25,7 +25,12 @@ Setup the config.json file in config/config.json with the following structure wi
   }
 }
 
-Run yarn install to install all the dependancies 
+#Instructions after cloning
+//To install all the dependancies
+yarn install 
+//Run seed to setup some sample data
+npx sequelize-cli db:seed:all
+//Run the server
+yarn start
 
-Start the server using yarn start
 
