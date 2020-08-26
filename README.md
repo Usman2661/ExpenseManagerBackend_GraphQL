@@ -25,7 +25,9 @@ Setup the config.json file in config/config.json with the following structure wi
   }
 }
 
-#Instructions after cloning
+Create public/images/userExpenses in root directory
+
+# Instructions after cloning
 //To install all the dependancies
 yarn install 
 //Run seed to setup some sample data
