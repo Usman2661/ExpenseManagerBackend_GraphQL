@@ -27,6 +27,8 @@ Setup the config.json file in config/config.json with the following structure wi
 
 Create public/images/userExpenses in root directory
 
+Create a .env file in root and add JWT_SECRET value to it
+
 # Instructions after cloning
 //To install all the dependancies
 yarn install 
