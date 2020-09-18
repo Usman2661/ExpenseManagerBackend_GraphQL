@@ -1,6 +1,8 @@
 # ExpenseManagerBackend_GraphQL
 
-Setup the config.json file in config/config.json with the following structure with the DB credentials
+- Full Backend GraphQL_API using Apollo, Sequelize ORM, SQL Database, Node.js
+
+- 1. Setup the config.json file in config/config.json with the following structure with the DB credentials
  {
   "development": {
     "username": "",
@@ -25,7 +27,13 @@ Setup the config.json file in config/config.json with the following structure wi
   }
 }
 
-Run yarn install to install all the dependancies 
+- 2. Create public/images/userExpenses in root directory
 
-Start the server using yarn start
+- 3. Create a .env file in root and add JWT_SECRET value to it
+
+- 4. Run yarn install to install all the dependancies 
+
+- 5. Run seed to setup some sample data for first admin user with email admin@expense.com npx sequelize-cli db:seed:all
+
+- 6. Finally start the server using yarn start
 
