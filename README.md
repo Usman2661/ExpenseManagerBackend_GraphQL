@@ -27,13 +27,16 @@
   }
 }
 
-- 2. Create public/images/userExpenses in root directory
+Create public/images/userExpenses in root directory
 
-- 3. Create a .env file in root and add JWT_SECRET value to it
+Create a .env file in root and add JWT_SECRET value to it
 
-- 4. Run yarn install to install all the dependancies 
+# Instructions after cloning
+//To install all the dependancies
+yarn install 
+//Run seed to setup some sample data
+npx sequelize-cli db:seed:all
+//Run the server
+yarn start
 
-- 5. Run seed to setup some sample data for first admin user with email admin@expense.com npx sequelize-cli db:seed:all
-
-- 6. Finally start the server using yarn start
 
